@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\ChallengeBackEndAlura1.props" />
+</Project>

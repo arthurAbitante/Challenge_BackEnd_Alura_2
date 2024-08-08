@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\ChallengeBackEndAlura1.props" />
+</Project>
