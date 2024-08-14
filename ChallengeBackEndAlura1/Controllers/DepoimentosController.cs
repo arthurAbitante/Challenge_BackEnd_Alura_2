@@ -20,9 +20,29 @@ namespace ChallengeBackEndAlura1.Controllers
 
         // GET: api/<DepoimentosController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Depoimento>>> GetDepoimentos()
+        public async Task<ActionResult<IEnumerable<Depoimento>>> GetTodosDepoimentos()
         {
             return await _context.Depoimentos.ToListAsync();
+        }
+
+        [HttpGet, Route("/depoimentos-home")]
+        public async Task<ActionResult<IEnumerable<Depoimento>>> GetTresDepoimentos()
+        {
+            var quantidadeDepoimentos = _context.Depoimentos.Count();
+            Random rand = new Random();
+
+            int sorteio = rand.Next(0, quantidadeDepoimentos);
+
+            var depoimentos = await  _context.Depoimentos.Distinct().OrderBy(x => Guid.NewGuid()).Skip(sorteio).Take(3).ToListAsync();
+
+            if (depoimentos.Count < 3)
+            {
+                var valoresAdicionais = await _context.Depoimentos.Where(x => !depoimentos.Contains(x)).OrderBy(x => Guid.NewGuid()).Take(3 - depoimentos.Count).ToListAsync();
+
+                depoimentos.AddRange(valoresAdicionais);
+            }
+
+            return depoimentos;
         }
 
         // GET api/<DepoimentosController>/5
@@ -102,5 +122,6 @@ namespace ChallengeBackEndAlura1.Controllers
         {
             return _context.Depoimentos.Any(e => e.id == id);
         }
+
     }
 }

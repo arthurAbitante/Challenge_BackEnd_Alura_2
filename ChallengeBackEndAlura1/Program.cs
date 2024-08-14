@@ -14,6 +14,7 @@ namespace APIHavan
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
+         });
+
     }
 }
